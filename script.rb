@@ -36,13 +36,17 @@ module GameClient
 		# post id shown on list (not game id in db)
 	end
 
-	def update_game_state
+	def get_update
 		# get request to server every 2 secs and upate game state
 		# loop, break until updated
 	end
 
+	def make_move
+		# patch request
+	end
+
 	def exit_game!
-		
+		# patch request
 	end
 
 	# parse raw json to hash
