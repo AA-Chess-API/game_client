@@ -14,4 +14,6 @@ end
 
 group :test do
 	gem 'webmock'
+	gem 'minitest-reporters'
+  gem 'mini_backtrace'
 end

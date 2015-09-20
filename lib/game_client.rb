@@ -1,4 +1,4 @@
-require "game_client/version"
+# require "game_client/version"
 
 require 'dotenv'
 require 'addressable/uri'
