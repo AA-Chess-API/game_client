@@ -2,11 +2,16 @@ require 'byebug'
 require_relative "./test_helper"
 
 class GameClientTest < Minitest::Test
+	include GameClient
 
   def test_get_game_list
   	stub_request(:get, 'localhost:3000/games').to_return(body: body)
-    RestClient.get('localhost:3000/games')
+    response = game_list
+
     assert_requested(:get, 'localhost:3000/games')
+    assert_kind_of Array, response
+    assert response.all? { |el| el.is_a?(Hash) }
+    assert_equal body.split("\n").map(&:strip).join.delete(' '), response.to_json.delete(' ')
   end
 end
 
