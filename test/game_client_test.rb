@@ -4,15 +4,40 @@ require_relative "./test_helper"
 class GameClientTest < Minitest::Test
 	include GameClient
 
+	def url(uri)
+		url = "localhost:3000/#{uri}"
+	end
+
   def test_get_game_list
-  	stub_request(:get, 'localhost:3000/games').to_return(body: body)
+  	stub_request(:get, url('games')).to_return(body: body)
     response = game_list
 
-    assert_requested(:get, 'localhost:3000/games')
+    assert_requested(:get, url('games'))
     assert_kind_of Array, response
     assert response.all? { |el| el.is_a?(Hash) }
     assert_equal body.split("\n").map(&:strip).join.delete(' '), response.to_json.delete(' ')
   end
+
+  # def test_create_game
+  # 	stub_request(:post, url('games')).
+  # 		with(body: { game_name: "epic game", player_name: "edmund" }).
+  # 		to_return(body: <<-BODY
+  # 			{ "game_name"=>"epic game",
+  # 				"initiator_id"=>"edmund", 
+  # 				"url"=>"http://localhost:3000/games/22?player=edmund" }
+  # 				BODY
+  # 				)
+
+  # 	game_name_input = StringIO.new("epic game\n")
+  # 	play_name_input = StringIO.new("edmund\n")
+  # 	# debugger
+  # 	response = create_game
+
+  # 	assert_requested(:post, url('games'))
+
+  # 	hash = {"game_name"=>"game_name", "initiator_id"=>"player_name", "url"=>"http://localhost:3000/games/22?player=edmund"}
+  # 	assert_equal response.split("\n").map(&:strip).to_h, hash
+  # end
 end
 
 

@@ -16,7 +16,7 @@ module GameClient
 		# enter name
 		# post request
 		# paht: /games
-		
+
 		game_name = prompt_enter_game_name
 		player_name = prompt_enter_player_name
 
@@ -29,13 +29,13 @@ module GameClient
 
 		# -> {"game_name"=>"game_name", 
 		#     "initiator_id"=>"player_name", 
-		#     "url"=>"http://localhost:3000/games/22?player=fdjlkas"}
+		#     "url"=>"http://localhost:3000/games/:id?player=player_name"}
 		JSON.parse(response) 
 	end
 
-	def enter_game(id)
-		# post request
-		# post id shown on list (not game id in db)
+	def join_game(id)
+		# patch request
+		# patch id shown on list (not game id in db)
 	end
 
 	def get_update
@@ -59,12 +59,12 @@ module GameClient
 
 	private
 
-	def url(path)
+	def url(uri)
 		url = Addressable::URI.new(
 		  scheme: 'http',
 		  host: 'localhost',
 		  port: 3000,
-		  path: "/#{path}"
+		  path: "/#{uri}"
 		).to_s
 	end
 
