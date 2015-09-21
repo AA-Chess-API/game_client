@@ -12,13 +12,11 @@ module GameClient
 		JSON.parse(RestClient.get(url))
 	end
 
-	def create_game
-		# enter name
-		# post request
-		# paht: /games
+	def create_game(game_name:, player_name:)
+		# post /games
 
-		game_name = prompt_enter_game_name
-		player_name = prompt_enter_player_name
+		# game_name = prompt_enter_game_name
+		# player_name = prompt_enter_player_name
 
 		url = url('games')
 
@@ -33,9 +31,18 @@ module GameClient
 		JSON.parse(response) 
 	end
 
-	def join_game(id)
+	def join_game(game_name:, player_name:)
 		# patch request
 		# patch id shown on list (not game id in db)
+
+		url = url('join')
+		response = RestClient.patch(
+			url,
+			{ game_name: game_name, player_name: player_name }
+		)
+
+		# return http://localhost:3000/games/2?player=ed
+		response
 	end
 
 	def get_update
