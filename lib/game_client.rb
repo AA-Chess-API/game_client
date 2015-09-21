@@ -34,7 +34,6 @@ module GameClient
 	def join_game(game_name:, player_name:)
 		# patch request
 		# patch id shown on list (not game id in db)
-
 		url = url('join')
 		response = RestClient.patch(
 			url,
@@ -48,6 +47,8 @@ module GameClient
 	def get_update(id:, player_name:)
 		# get request to server every 2 secs and upate game state
 		# loop, break until updated
+		# localhost:3000/games/30?player=ed
+
 		url = url("games/#{id}?player=#{player_name}")
 
 		state = "WAIT"
@@ -57,11 +58,18 @@ module GameClient
 			sleep(1)
 		end
 
-		response["move"]
+		JSON.parse(response["move"])
 	end
 
-	def make_move
+	def make_move(id:, player_name:, move:)
 		# patch request
+		url = url("games/#{id}")
+		response = RestClient.patch(
+			url,
+			{ player: player_name, move: move }
+		)
+
+		fail "Not your turn." if response == '404'
 	end
 
 	def exit_game!
