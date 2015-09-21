@@ -45,9 +45,19 @@ module GameClient
 		response
 	end
 
-	def get_update
+	def get_update(id:, player_name:)
 		# get request to server every 2 secs and upate game state
 		# loop, break until updated
+		url = url("games/#{id}?player=#{player_name}")
+
+		state = "WAIT"
+		while state == "WAIT"
+			response = JSON.parse(RestClient.get(url))
+			state = response["state"]
+			sleep(1)
+		end
+
+		response["move"]
 	end
 
 	def make_move
