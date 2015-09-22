@@ -24,18 +24,17 @@ class GameClientTest < Minitest::Test
           "url":"http://localhost:3000/games/22?player=edmund"}
       BODY
 
+    resp_body = resp_body.split("\n").map(&:strip).join
+
   	stub_request(:post, url('games')).
   		with(:body => {"game_name"=>"epic game", "player_name"=>"John Wick"},
                :headers => { 'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'45', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby' }).
-  		to_return(body: resp_body.split("\n").map(&:strip).join)
+  		to_return(body: resp_body)
   	
   	response = create_game(game_name: 'epic game', player_name: 'John Wick')
 
   	assert_requested(:post, url('games'))
-
-  	hash = {"game_name"=>"epic game", "initiator_id"=>"John Wick", "url"=>"http://localhost:3000/games/22?player=edmund"}
-    
-  	assert_equal response, hash
+  	assert_equal response, JSON.parse(resp_body)
   end
 end
 
