@@ -1,4 +1,3 @@
-require 'byebug'
 require_relative "./test_helper"
 
 class GameClientTest < Minitest::Test
@@ -18,26 +17,26 @@ class GameClientTest < Minitest::Test
     assert_equal body.split("\n").map(&:strip).join.delete(' '), response.to_json.delete(' ')
   end
 
-  # def test_create_game
-  # 	stub_request(:post, url('games')).
-  # 		with(body: { game_name: "epic game", player_name: "edmund" }).
-  # 		to_return(body: <<-BODY
-  # 			{ "game_name"=>"epic game",
-  # 				"initiator_id"=>"edmund", 
-  # 				"url"=>"http://localhost:3000/games/22?player=edmund" }
-  # 				BODY
-  # 				)
+  def test_create_game
+    resp_body = <<-BODY
+        {"game_name":"epic game",
+          "initiator_id":"John Wick", 
+          "url":"http://localhost:3000/games/22?player=edmund"}
+      BODY
 
-  # 	game_name_input = StringIO.new("epic game\n")
-  # 	play_name_input = StringIO.new("edmund\n")
-  # 	# debugger
-  # 	response = create_game
+  	stub_request(:post, url('games')).
+  		with(:body => {"game_name"=>"epic game", "player_name"=>"John Wick"},
+               :headers => { 'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'45', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby' }).
+  		to_return(body: resp_body.split("\n").map(&:strip).join)
+  	
+  	response = create_game(game_name: 'epic game', player_name: 'John Wick')
 
-  # 	assert_requested(:post, url('games'))
+  	assert_requested(:post, url('games'))
 
-  # 	hash = {"game_name"=>"game_name", "initiator_id"=>"player_name", "url"=>"http://localhost:3000/games/22?player=edmund"}
-  # 	assert_equal response.split("\n").map(&:strip).to_h, hash
-  # end
+  	hash = {"game_name"=>"epic game", "initiator_id"=>"John Wick", "url"=>"http://localhost:3000/games/22?player=edmund"}
+    
+  	assert_equal response, hash
+  end
 end
 
 
@@ -57,3 +56,11 @@ end
 # stub_request(:post, 'http://host/api').with(:body => { :key => 'value' }).to_return(:body => 'fake body')
 # RestClient.post('http://host/api', :key => 'value') 
 # WebMock.should have_requested(:post ,'http://host/api')
+
+
+
+
+
+
+
+

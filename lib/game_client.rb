@@ -28,7 +28,8 @@ module GameClient
 		# -> {"game_name"=>"game_name", 
 		#     "initiator_id"=>"player_name", 
 		#     "url"=>"http://localhost:3000/games/:id?player=player_name"}
-		JSON.parse(response) 
+		# debugger
+		JSON.parse(response)
 	end
 
 	def join_game(game_name:, player_name:)

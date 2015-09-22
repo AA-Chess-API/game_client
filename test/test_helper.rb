@@ -1,10 +1,4 @@
-require "minitest/autorun"
-
-require "game_client"
-require "webmock/minitest"
-require 'minitest/reporters'
-
-Minitest::Reporters.use!
+require_relative './setup'
 
 def body
   <<-BODY
