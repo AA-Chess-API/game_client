@@ -21,7 +21,7 @@ class GameClientTest < Minitest::Test
     resp_body = <<-BODY
         {"game_name":"epic game",
           "initiator_id":"John Wick", 
-          "url":"http://localhost:3000/games/22?player=edmund"}
+          "url":"http://localhost:3000/games/22?player=John+Wick"}
       BODY
 
     resp_body = resp_body.split("\n").map(&:strip).join
@@ -35,6 +35,10 @@ class GameClientTest < Minitest::Test
 
   	assert_requested(:post, url('games'))
   	assert_equal response, JSON.parse(resp_body)
+  end
+
+  def test_join_game
+    # stub_request(:patch, url("games/15?player=ed"))
   end
 end
 
