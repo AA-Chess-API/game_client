@@ -27,7 +27,7 @@ class GameClientTest < Minitest::Test
     resp_body = resp_body.split("\n").map(&:strip).join
 
   	stub_request(:post, url('games')).
-  		with(:body => {"game_name"=>"epic game", "player_name"=>"John Wick"},
+  		with(:body => { "game_name"=>"epic game", "player_name"=>"John Wick" },
                :headers => { 'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'45', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby' }).
   		to_return(body: resp_body)
   	
@@ -37,9 +37,18 @@ class GameClientTest < Minitest::Test
   	assert_equal response, JSON.parse(resp_body)
   end
 
-  def test_join_game
-    # stub_request(:patch, url("games/15?player=ed"))
-  end
+  # WebMock don't support patch request
+  
+  # def test_join_game
+  #   stub_request(:patch, url("join")).
+  #     with(:body => { "game_name" => "epic game", "player_name" => "ed" }).
+  #     to_return(url("games/2?player=ed"))
+
+  #   response = join_game(game_name: "epic game", player_name: "ed")
+
+  #   assert_requested(:patch, url("join"))
+  #   assert_equal response, url("games/2?player=ed")
+  # end
 end
 
 

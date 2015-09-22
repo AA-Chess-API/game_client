@@ -8,7 +8,7 @@ require 'json'
 module GameClient
 
 	def game_list
-		url = url('games')
+		url = url("games")
 		JSON.parse(RestClient.get(url))
 	end
 
@@ -18,7 +18,7 @@ module GameClient
 		# game_name = prompt_enter_game_name
 		# player_name = prompt_enter_player_name
 
-		url = url('games')
+		url = url("games")
 
 		response = RestClient.post(
 			url,
@@ -35,7 +35,7 @@ module GameClient
 	def join_game(game_name:, player_name:)
 		# patch request
 		# patch id shown on list (not game id in db)
-		url = url('join')
+		url = url("join")
 		response = RestClient.patch(
 			url,
 			{ game_name: game_name, player_name: player_name }
@@ -70,11 +70,18 @@ module GameClient
 			{ player: player_name, move: move }
 		)
 
-		fail "Not your turn." if response == '404'
+		fail "Not your turn." if response == "404"
 	end
 
-	def exit_game!
+	def exit_game!(game_name:, player_name:)
 		# patch request
+		url = url("quit")
+		response = RestClient.patch(
+			url,
+			{ game_name: game_name, player_name: player_name }
+		)
+
+		response
 	end
 
 	# parse raw json to hash
@@ -87,8 +94,8 @@ module GameClient
 
 	def url(uri)
 		url = Addressable::URI.new(
-		  scheme: 'http',
-		  host: 'localhost',
+		  scheme: "http",
+		  host: "localhost",
 		  port: 3000,
 		  path: "/#{uri}"
 		).to_s
