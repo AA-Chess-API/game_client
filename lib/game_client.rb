@@ -1,9 +1,6 @@
 require_relative "./game_client/version"
+require_relative "./base"
 
-require 'dotenv'
-require 'addressable/uri'
-require 'rest-client'
-require 'json'
 
 module GameClient
 
@@ -91,7 +88,7 @@ module GameClient
 
 
 	private
-
+	# TODO: wrapper client, refactor this into .env
 	def url(uri)
 		url = Addressable::URI.new(
 		  scheme: "http",
